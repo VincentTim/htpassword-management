@@ -11,16 +11,27 @@ class htpasswd {
 
         echo $file;
 
-        $cmd = 'htpasswd -b /var/www/pass/'.strtolower($file).' '.$username.' '.$password.'';
+        $cmd = 'htpasswd -b '.$this->path.''.strtolower($file).' '.$username.' '.$password.'';
         shell_exec(escapeshellcmd($cmd));
-        
+
     }
 
     function user_delete($file, $username,$password) {
 
-        $cmd = 'htpasswd -D /var/www/pass/'.strtolower($file).' '.$username.' '.$password.'';
+        $cmd = 'htpasswd -D '.$this->path.''.strtolower($file).' '.$username.' '.$password.'';
         shell_exec(escapeshellcmd($cmd));
         
+    }
+
+    function customer_add($client, $username, $password){
+        $cmd = 'htpasswd -b -c '.$this->path.'.htpasswd_'.strtolower($client).' '.$username.' '.$password.'';
+        shell_exec(escapeshellcmd($cmd));
+    }
+
+    function customer_delete($file){
+        if(file_exists($this->path.''.$file)){
+            unlink($this->path.''.$file);    
+        }
     }
 
     function get_lines($filename){
@@ -52,8 +63,8 @@ class htpasswd {
 
     function getFiles()
     {
-        $path = '/var/www/pass/';
-        $arrayFiles = scandir($path);
+        
+        $arrayFiles = scandir($this->path);
         $arrayOutput = array();
 
         foreach($arrayFiles as $file){

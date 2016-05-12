@@ -3,9 +3,81 @@ $(document).ready(function(){
     var template = $('#hidden-template').html();
     var templateAdd = $('#add-hidden-template').html();
 
+    $('.list-header').click(function(e){
+        e.preventDefault();
+
+        if($(this).hasClass('open')){
+            $(this).next('.list-admin').slideUp();
+        } else {
+            $(this).next('.list-admin').slideDown();
+        }
+        $(this).toggleClass('open');
+    })
+
+    /*-----------------------------------------------------------------------*/
+    /*-------------------- GESTION CLIENT -------------------------------------*/
+    /*-----------------------------------------------------------------------*/
+
+    $('.add-customer').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: 'of/addCustomer.php',
+            type: 'post',
+            data: $("#addCustomerForm").serialize(),
+            success: function(html){
+                window.location.reload();
+            }
+        })
+
+    })
+
+    $('.delete-customer').click(function(e){
+        if(confirm('Voulez-vous supprimer ce client?')) {
+            e.preventDefault();
+            $.ajax({
+                url: 'of/deleteCustomer.php',
+                type: 'post',
+                data: $("#addCustomerForm").serialize(),
+                success: function (html) {
+                    window.location.reload();
+
+                }
+            })
+        }
+
+    })
+
+    /*-----------------------------------------------------------------------*/
+    /*-------------------- GESTION USER -------------------------------------*/
+    /*-----------------------------------------------------------------------*/
+
+    /* Ajout d'un utilisateur */
+    $(".add-user-btn").click(function(e){
+        e.preventDefault();
+        $(this).toggleClass('active');
+        $(this).parent().append(templateAdd);
+        $('#addForm').find('input#file').val($(this).data('file'));
+
+    })
+
+    $(document).on('click', '.add-user', function(e){
+        e.preventDefault();
+        $.ajax({
+            url: 'of/add.php',
+            type: 'post',
+            data: $("#addForm").serialize(),
+            success: function(html){
+                window.location.reload();
+            }
+        })
+    })
+
+    clear('.clear-add-user');
+
+    /* Suppression d'un utilisateur */
     $(".delete-btn").click(function(e){
         e.preventDefault();
-        if(confirm('Voulez-vous supprimer cet utilisateur')){
+        if(confirm('Voulez-vous supprimer cet utilisateur?')){
             $.ajax({
                 url: 'of/delete.php',
                 type: 'post',
@@ -16,20 +88,6 @@ $(document).ready(function(){
                 }
             })
         }
-    })
-
-    $('.add-customer').click(function(e){
-        e.preventDefault();
-        $.ajax({
-            url: 'of/addCustomer.php',
-            type: 'post',
-            data: $("#addCustomerForm").serialize(),
-            success: function(html){
-                window.location.reload();
-
-            }
-        })
-
     })
 
     /* Mise à jour d'un utilisateur */
@@ -55,40 +113,6 @@ $(document).ready(function(){
     })
 
     clear('.clear-update-user');
-
-    /* Ajout d'un utilisateur */
-    $(".add-user-btn").click(function(e){
-        e.preventDefault();
-        $(this).toggleClass('active');
-        $(this).parent().append(templateAdd);
-        $('#addForm').find('input#file').val($(this).data('file'));
-
-    })
-
-    $(document).on('click', '.add-user', function(e){
-        e.preventDefault();
-        $.ajax({
-            url: 'of/add.php',
-            type: 'post',
-            data: $("#addForm").serialize(),
-            success: function(html){
-                window.location.reload();
-            }
-        })
-    })
-
-    clear('.clear-add-user');
-
-    $('.list-header').click(function(e){
-        e.preventDefault();
-
-        if($(this).hasClass('open')){
-            $(this).next('.list-admin').slideUp();
-        } else {
-            $(this).next('.list-admin').slideDown();
-        }
-        $(this).toggleClass('open');
-    })
 
 })
 

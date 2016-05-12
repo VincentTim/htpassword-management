@@ -23,7 +23,12 @@ $htpasswd = new htpasswd();
 <body>
 
 <div class="wrapper col-md-6">
-    <h2>Liste des clients</h2>
+
+    <div class="page-header">
+        <h1>Gestion des accès clients</h1>
+    </div>
+
+    <h3>Liste des clients</h3>
 
     <?php if(count($htpasswd->getFiles()) > 0) { ?>
     <ul class="list-group">
@@ -65,7 +70,7 @@ $htpasswd = new htpasswd();
         <div class="alert alert-danger" role="alert"><p>Vous n'avez pas de clients d'enregistrés</p></div>
     <?php } ?>
 
-    <h2>Ajouter un nouveau client</h2>
+    <h3>Ajouter un nouveau client</h3>
     <form action="#" method="post" name="addCustomerForm" id="addCustomerForm">
         <div class="form-group">
             <label class="control-label" for="client">Nom</label>
